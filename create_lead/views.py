@@ -58,22 +58,27 @@ def create_lead(request):
         bound_form = CreateLead(request.POST)
         if bound_form.is_valid():
 
-            fio_from_dadata = dadata.clean('name', source=request.POST['fio'])
-            if not fio_from_dadata['patronymic']:
+            fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias = make_data_to_call_rest_api(
+                                       bound_form.cleaned_data['fio'],
+                                       bound_form.cleaned_data['telephone'],
+                                       bound_form.cleaned_data['address_of_lead'])
+            print(fio_from_dadata, address_from_dadata_by_fias)
+            #fio_from_dadata = dadata.clean('name', source=request.POST['fio'])
+            #if not fio_from_dadata['patronymic']:
 
-                fio_from_dadata['patronymic'] = ''
-            telepone_from_dadata = dadata.clean('phone', source=request.POST['telephone'])
-            address_from_dadata = dadata.clean("address", request.POST['address_of_lead'])
-            address_from_dadata_by_fias_ = dadata.find_by_id('address', address_from_dadata['fias_id'])
+                #fio_from_dadata['patronymic'] = ''
+            #telepone_from_dadata = dadata.clean('phone', source=request.POST['telephone'])
+            #address_from_dadata = dadata.clean("address", request.POST['address_of_lead'])
+            #address_from_dadata_by_fias_ = dadata.find_by_id('address', address_from_dadata['fias_id'])
             bx24.call('crm.lead.add', items={
                 'fields':
                     {
                         "NAME": fio_from_dadata['name'],
                         "SECOND_NAME": fio_from_dadata['patronymic'],
                         "LAST_NAME": fio_from_dadata['surname'],
-                        "ADDRESS": address_from_dadata_by_fias_[0]['unrestricted_value'],
+                        "ADDRESS": address_from_dadata_by_fias[0]['unrestricted_value'],
                         # "ADDRESS": address_from_dadata["result"],
-                        "PHONE": [{"VALUE": telepone_from_dadata['phone'], "VALUE_TYPE": telepone_from_dadata['type']}]
+                        "PHONE": [{"VALUE": telephone_from_dadata['phone'], "VALUE_TYPE": telephone_from_dadata['type']}]
                     }
             })
             return redirect('https://b24-tc3mws.bitrix24.ru/stream/')
