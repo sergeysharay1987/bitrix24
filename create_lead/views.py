@@ -11,6 +11,17 @@ API_URL = "https://dadata.ru/api/clean/name/"
 URL_WEB_HOOK_TO_CALL_REST_API = 'https://b24-tc3mws.bitrix24.ru/rest/1/27b28um0db36ab7r'
 
 
+def make_data_to_call_rest_api(fio, telephone, address):
+    fio = dadata.clean('name', fio)
+    telephone = dadata.clean('phone', telephone)
+    address = dadata.clean('address', address)
+    address_by_fias = dadata.find_by_id('address', address['fias_id'])
+    return fio, telephone, address_by_fias
+
+
+
+
+
 def find_address_by_fias(address_from_dadata):
     return dadata.find_by_id('address', address_from_dadata['fias_id'])
 
