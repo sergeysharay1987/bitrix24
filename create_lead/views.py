@@ -58,7 +58,6 @@ def create_lead(request):
                         "SECOND_NAME": fio_from_dadata['patronymic'],
                         "LAST_NAME": fio_from_dadata['surname'],
                         "ADDRESS": address_from_dadata_by_fias,
-                        # "ADDRESS": address_from_dadata["result"],
                         "PHONE": [
                             {"VALUE": telephone_from_dadata['phone'], "VALUE_TYPE": telephone_from_dadata['type']}]
                     }
