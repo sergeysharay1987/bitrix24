@@ -19,7 +19,8 @@ def make_data_to_call_rest_api(fio, telephone, address):
     return fio, telephone, address_by_fias[0]['unrestricted_value']
 
 
-def call_web_hook(fio_from_dadata, address_from_dadata_by_fias, telephone_from_dadata):
+def call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias):
+    print(telephone_from_dadata)
     return bx24.call('crm.lead.add', items={
                 'fields':
                     {
@@ -52,17 +53,7 @@ def create_lead(request):
                 bound_form.cleaned_data['fio'],
                 bound_form.cleaned_data['telephone'],
                 bound_form.cleaned_data['address_of_lead'])
-            bx24.call('crm.lead.add', items={
-                'fields':
-                    {
-                        "NAME": fio_from_dadata['name'],
-                        "SECOND_NAME": fio_from_dadata['patronymic'],
-                        "LAST_NAME": fio_from_dadata['surname'],
-                        "ADDRESS": address_from_dadata_by_fias,
-                        "PHONE": [
-                            {"VALUE": telephone_from_dadata['phone'], "VALUE_TYPE": telephone_from_dadata['type']}]
-                    }
-            })
+            call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias)
             return redirect('https://b24-tc3mws.bitrix24.ru/stream/')
         else:
             form = CreateLead(request.POST)
