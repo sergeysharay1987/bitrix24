@@ -14,7 +14,7 @@
     {% csrf_token %}
     {% for field in form %}
     
-     <div>
+     <div align = 'center'>
         {% if field.errors %}
             <div class = "alert alert-danger">
                 <p>{{ field.errors }}</p>
@@ -24,7 +24,7 @@
         <p>{{ field }}</p>
      {% endfor %}
     </div>
-    <input type = "submit" value = "Create lead">
+    <button type="submit" class="btn btn-primary">Create lead</button>
 </form>
 
 
