@@ -70,7 +70,11 @@ def create_lead(request):
             #print()
             #call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias)
             call_web_hook(fio, telephone, address)
-            return redirect('https://b24-tc3mws.bitrix24.ru/stream/')
+            return redirect(reverse('lead_have_created'))
         else:
             form = CreateLead(request.POST)
             return render(request, 'create_lead/index.html', {'form': form})
+
+
+def show_result_of_creation(request):
+    return render(request, 'create_lead/lead_have_created.html')
