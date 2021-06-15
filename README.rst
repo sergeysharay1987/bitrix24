@@ -25,20 +25,20 @@ to get the latest version for development.
 
     pyenv install 3.9.2
 
-#. Set a python version 3.9.2 in your directory with project (web_calculator/)::
+#. Set a python version 3.9.2 in your directory with project (bitrix24/)::
 
     pyenv local 3.9.2
 
 
-   After doing that a python-version file will appears in the directory with project.
+   After doing that a python-version file will appears in the root directory of the project.
 
 8. Install `pip`. ::
 
-    pip install pip==20.3.3
+    pip install pip==21.1.2
 
 #. Install poetry, according to `<https://python-poetry.org/docs/#installation>`_.::
 
-    pip install poetry
+    pip install poetry == 1.1.5
 
 Run
 ++++
