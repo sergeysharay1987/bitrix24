@@ -15,9 +15,10 @@ Including another URLconf
 """
 # from django.contrib import admin
 from django.urls import path
-from .views import create_lead, hello_user
+from .views import create_lead, hello_user, show_result_of_creation
 
 urlpatterns = [
     path('', hello_user, name="hello_user"),
-    path('create', create_lead, name="create_lead")
+    path('create', create_lead, name="create_lead"),
+    path('create/result', show_result_of_creation, name="lead_have_created")
 ]
