@@ -26,12 +26,12 @@ def make_data_to_call_rest_api(fio_from_form, telephone_from_form, address_from_
     address_from_form = dadata.clean('address', address_from_form)
     address_from_form__by_fias = dadata.find_by_id('address', address_from_form['fias_id'])
     fio, telephone, address = check_empty_key_values(fio_from_form, telephone_from_form, address_from_form__by_fias[0])
-    print(fio, telephone, address)
+
     return fio, telephone, address
 
 
 def call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias):
-    # print(fio_from_dadata, telephone_from_dadata, telephone_from_dadata, sep = '\n')
+
     return bx24.call('crm.lead.add', items={
         'fields':
             {
@@ -39,7 +39,6 @@ def call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by
                 "SECOND_NAME": fio_from_dadata['patronymic'],
                 "LAST_NAME": fio_from_dadata['surname'],
                 "ADDRESS": address_from_dadata_by_fias['unrestricted_value'],
-                # "ADDRESS": address_from_dadata["result"],
                 "PHONE": [
                     {"VALUE": telephone_from_dadata['phone'], "VALUE_TYPE": telephone_from_dadata['type']}]
             }
@@ -64,12 +63,7 @@ def create_lead(request):
                 bound_form.cleaned_data['fio'],
                 bound_form.cleaned_data['telephone'],
                 bound_form.cleaned_data['address_of_lead'])
-            fio, telephone, address = check_empty_key_values(fio_from_dadata, telephone_from_dadata,
-                                                             address_from_dadata_by_fias)
-            #print(fio, telephone, address, sep = '\n')
-            #print()
-            #call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias)
-            call_web_hook(fio, telephone, address)
+            call_web_hook(fio_from_dadata, telephone_from_dadata, address_from_dadata_by_fias)
             return redirect(reverse('lead_have_created'))
         else:
             form = CreateLead(request.POST)
