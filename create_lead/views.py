@@ -71,4 +71,5 @@ def create_lead(request):
 
 
 def show_result_of_creation(request):
-    return render(request, 'create_lead/lead_have_created.html')
+    a_href = reverse(viewname='create_lead')
+    return render(request, 'create_lead/lead_have_created.html', {'a_href': a_href})
